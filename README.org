@@ -1,0 +1,17 @@
+* Requirements:
+- Vim
+- Emacs
+
+* Usage
+This script probably won't work on windows. It's still not finished, but it
+should work to some degree.
+
+The theme to convert should be put in =~/.vim/colors=.
+
+To use this script:
+1. Run Emacs
+2. Type =M-x load-file= and point it to =vimco.el= from this repository.
+3. Type =M-x vimco-convert-vim-theme= and answer to the prompt with the name
+   of the theme to be converted.
+4. A buffer with the converted theme will pop up. Use =write-file= to save it
+   somewhere.
