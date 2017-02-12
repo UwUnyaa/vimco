@@ -15,3 +15,5 @@ To use this script:
    of the theme to be converted.
 4. A buffer with the converted theme will pop up. Use =write-file= to save it
    somewhere.
+
+[[https://asciinema.org/a/102948][https://asciinema.org/a/102948.png]]
