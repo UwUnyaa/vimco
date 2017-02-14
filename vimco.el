@@ -119,7 +119,8 @@ be an alist returned by `vimco-parse-line'."
           (mapc
            (lambda (attribute)
              (when attribute
-               (setq face-attributes (append face-attributes attribute))))
+               (setq face-attributes
+                     (append face-attributes (list attribute)))))
            (list attributes background foreground))
           ;; make face definitions
           (mapc
