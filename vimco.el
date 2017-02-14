@@ -80,13 +80,12 @@ be an alist returned by `vimco-parse-line'."
   (cl-flet ((get-prop (prop) (cdr (assoc prop line))))
     (let ((face-names (cdr (assoc (caar line) vimco-face-name-alist))))
       (when face-names
-        (let
-            ((foreground (get-prop "guifg"))
-             (background (get-prop "guibg"))
-             (attributes (or (get-prop "gui")
-                             (get-prop "term")
-                             (get-prop "cterm")))
-             faces face-attributes)
+        (let ((foreground (get-prop "guifg"))
+              (background (get-prop "guibg"))
+              (attributes (or (get-prop "gui")
+                              (get-prop "term")
+                              (get-prop "cterm")))
+              faces face-attributes)
           ;; replace "NONE" with nil
           (mapc
            (lambda (prop)
