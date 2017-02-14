@@ -100,9 +100,11 @@ be an alist returned by `vimco-parse-line'."
                   (let (new-attributes)
                     (mapc
                      (lambda (attribute)
-                       (setq attribute (cdr (assoc attribute vimco-attribute-alist)))
+                       (setq attribute
+                             (cdr (assoc attribute vimco-attribute-alist)))
                        (when attribute
-                         (setq new-attributes (append attribute new-attributes))))
+                         (setq new-attributes
+                               (append attribute new-attributes))))
                      (split-string attributes "," t))
                     new-attributes)))
           ;; turn foreground and background into proper lists
