@@ -65,8 +65,8 @@
   "Turns substring from buffer REGION, which should look
 like (beg .end) into an alist. If a word looks like \"a=b\", it's
 stored as (\"a\" . \"b\"), else cdr is set to nil."
-  (let* ((beg (car region))
-         (end (cdr region)))
+  (let ((beg (car region))
+        (end (cdr region)))
     (mapcar (lambda (word)
               (if (string-match "=" word)
                   (let ((data (split-string word "=" t)))
