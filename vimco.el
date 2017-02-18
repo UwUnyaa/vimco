@@ -196,4 +196,12 @@ be an alist returned by `vimco-parse-line'."
                    ":q"))
     (vimco-convert-theme vimco-temp-file theme-name)
     (delete-file vimco-temp-file)
-    (message "Write this file somewhere")))
+    (when (called-interactively-p 'interactive)
+      (let ((theme-file (format "%s-theme.el" theme-name)))
+        (write-file (concat
+                     (expand-file-name
+                      (read-directory-name
+                       (format
+                        "Directory to save %s in: " theme-file)
+                       "~/.emacs.d/"))
+                     theme-file))))))
