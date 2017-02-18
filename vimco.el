@@ -141,6 +141,7 @@ be an alist returned by `vimco-parse-line'."
          (theme-file (format "%s-theme.el" theme-name))
          (buffer (get-buffer-create theme-file)))
     (switch-to-buffer buffer)
+    (delete-region (point-min) (point-max))
     ;; switch to `emacs-lisp-mode' for nice syntax highlighting
     (emacs-lisp-mode)
     (insert
