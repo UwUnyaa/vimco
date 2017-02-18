@@ -16,4 +16,4 @@ To use this script:
 4. You will be prompted for the directory to save generated theme in. The
    default should be good enough.
 
-[[https://asciinema.org/a/102948][https://asciinema.org/a/102948.png]]
+[[https://asciinema.org/a/103734][https://asciinema.org/a/103734.png]]
