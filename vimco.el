@@ -12,6 +12,10 @@
   "https://github.com/DoMiNeLa10/vimco"
   "Link to the repository that holds this file.")
 
+(defvar vimco-temp-file (concat temporary-file-directory "vimco")
+  "Path to the temporary file storing the output of
+vim's :highlight command.")
+
 (defvar vimco-face-name-alist
   '(("Normal"        default)
     ("Cursor"        cursor)
@@ -132,14 +136,13 @@ be an alist returned by `vimco-parse-line'."
            face-names)
           faces)))))
 
-(defun vimco-convert-theme (file)
-  (let* ((theme-name (intern
-                      (file-name-sans-extension
-                       (file-name-nondirectory file))))
-         (theme-file (format "%s-theme.el" theme-name)))
-    (find-file theme-file)
-    ;; clear the buffer
-    (delete-region (point-min) (point-max))
+(defun vimco-convert-theme (file theme)
+  (let* ((theme-name (intern theme))
+         (theme-file (format "%s-theme.el" theme-name))
+         (buffer (get-buffer-create theme-file)))
+    (switch-to-buffer buffer)
+    ;; switch to `emacs-lisp-mode' for nice syntax highlighting
+    (emacs-lisp-mode)
     (insert
      (vimco-separate-newline
       ;; comments at the beginning of a file
@@ -179,16 +182,17 @@ be an alist returned by `vimco-parse-line'."
           (mapcar
            #'file-name-sans-extension
            (directory-files "~/.vim/colors" nil "\\.vim$")))))
-  (let ((theme-file (concat temporary-file-directory theme-name)))
+  (let (file-name)
     (call-process (executable-find "vim") nil nil nil
                   "-u" "NONE"
                   "-c"
                   (vimco-separate-newline
                    ":set columns=3000"
                    (format ":colorscheme %s" theme-name)
-                   (format ":redir > %s" theme-file)
+                   (format ":redir > %s" vimco-temp-file)
                    ":highlight"
                    ":redir END"
                    ":q"))
-    (vimco-convert-theme theme-file))
-  (message "Write this file somewhere"))
+    (vimco-convert-theme vimco-temp-file theme-name)
+    (delete-file vimco-temp-file)
+    (message "Write this file somewhere")))
