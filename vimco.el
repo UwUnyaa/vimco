@@ -167,6 +167,8 @@ be an alist returned by `vimco-parse-line'."
       (pp-to-string `(provide-theme ',theme-name))
       ;; set file variables so the theme won't get compiled
       (concat ";; Local" " Variables:")
+      ;; previous line is split up like this, because emacs otherwise tries to
+      ;; interpret file local variables and spits out error messages
       ";; no-byte-compile: t"
       ";; End:\n"))))
 
