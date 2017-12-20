@@ -1,7 +1,16 @@
 ;;; vimco.el --- Convert Vim themes to Emacs
 
-;; this code is based on code from
+;;; Commentary:
+;; This file defines a vim to emacs theme converter. It should be used through
+;; an interactive function `vimco-convert-vim-theme', which assumes vim themes
+;; are located in "~/.vim/colors".
+;;
+;; There's no reason to have this file loaded in Emacs at all times, so it can
+;; loaded with `load-file' or evaluated with `eval-buffer'.
+;; 
+;; This code is based on code from
 ;; <https://github.com/zphr/vim-theme-converter.el>
+
 
 (eval-when-compile
   (require 'cl))
@@ -13,8 +22,7 @@
   "Link to the repository that holds this file.")
 
 (defvar vimco-temp-file (concat temporary-file-directory "vimco")
-  "Path to the temporary file storing the output of
-vim's :highlight command.")
+  "Path to temporary file used by `vimco'.")
 
 (defvar vimco-face-name-alist
   '(("Normal"        default)
@@ -53,10 +61,13 @@ vim's :highlight command.")
     ("inverse"    :inverse-video t)
     ("italic"     :slant italic)))
 
+;;; Code:
 (defun vimco-separate-newline (&rest lines)
+  "Helper function to join LINES with newlines."
   (mapconcat #'identity lines "\n"))
 
 (defun vimco-get-lines ()
+  "Return an alist of line beginning and end characters."
   (let (prev-line lines)
     (goto-char (point-min))
     (setq prev-line (point))
@@ -66,9 +77,10 @@ vim's :highlight command.")
     (nreverse lines)))
 
 (defun vimco-parse-line (region)
-  "Turns substring from buffer REGION, which should look
-like (beg .end) into an alist. If a word looks like \"a=b\", it's
-stored as (\"a\" . \"b\"), else cdr is set to nil."
+  "Parse substring from characters in cons REGION into an alist.
+
+REGION which should look like (beg . end), where both are
+character numbers. Empty properties have cdr set to nil."
   (let ((beg (car region))
         (end (cdr region)))
     (mapcar (lambda (word)
@@ -79,8 +91,9 @@ stored as (\"a\" . \"b\"), else cdr is set to nil."
             (split-string (buffer-substring-no-properties beg end) " " t))))
 
 (defun vimco-line-to-faces (line)
-  "Transforms a LINE into a list of face definitions. LINE should
-be an alist returned by `vimco-parse-line'."
+  "Transforms LINE into a list of face definitions.
+
+LINE should be an alist returned by `vimco-parse-line'."
   (cl-flet ((get-prop (prop) (cdr (assoc prop line))))
     (let ((face-names (cdr (assoc (caar line) vimco-face-name-alist))))
       (when face-names
@@ -137,6 +150,9 @@ be an alist returned by `vimco-parse-line'."
           faces)))))
 
 (defun vimco-convert-theme (file theme)
+  "Create a buffer FILE converted into an Emacs theme called THEME.
+
+FILE should be a path to a Vim theme."
   (let* ((theme-name (intern theme))
          (theme-file (format "%s-theme.el" theme-name))
          (buffer (get-buffer-create theme-file)))
@@ -177,6 +193,7 @@ be an alist returned by `vimco-parse-line'."
       ";; End:\n"))))
 
 (defun vimco-convert-vim-theme (theme-name)
+  "Convert vim theme THEME-NAME into an Emacs theme."
   (interactive
    (list (completing-read
           "Theme name: "
@@ -205,3 +222,6 @@ be an alist returned by `vimco-parse-line'."
                         "Directory to save %s in: " theme-file)
                        "~/.emacs.d/"))
                      theme-file))))))
+
+(provide 'vimco)
+;;; vimco.el ends here
