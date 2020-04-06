@@ -1,6 +1,6 @@
 ;;; vimco.el --- Convert Vim themes to Emacs
 
-;; Copyright (C) 2017 DoMiNeLa10
+;; Copyright (C) 2017, 2020 UwUnyaa
 
 ;; This program is free software: you can redistribute it and/or modify it
 ;; under the terms of the GNU General Public License as published by the Free
@@ -33,7 +33,7 @@
 (require 'pp)
 
 (defconst vimco-repo-link
-  "https://github.com/DoMiNeLa10/vimco"
+  "https://github.com/UwUnyaa/vimco"
   "Link to the repository that holds this file.")
 
 (defvar vimco-temp-file (concat temporary-file-directory "vimco")
