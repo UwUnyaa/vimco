@@ -26,10 +26,7 @@
 ;; This code is based on code from
 ;; <https://github.com/zphr/vim-theme-converter.el>
 
-
-(eval-when-compile
-  (require 'cl))
-
+(require 'cl-lib)
 (require 'pp)
 
 (defconst vimco-repo-link
